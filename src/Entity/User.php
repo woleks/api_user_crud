@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="User already exists!"
  * )
  */
-class User implements UserInterface, \JsonSerializable
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -108,26 +108,9 @@ class User implements UserInterface, \JsonSerializable
     /**
      * @see UserInterface
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using bcrypt or argon
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     /**
@@ -142,28 +125,29 @@ class User implements UserInterface, \JsonSerializable
     }
 
     /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using bcrypt or argon
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
      * Returns the username used to authenticate the user.
      *
      * @return string The username
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return '';
-    }
-
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
-    {
-        return [
-            'id' => $this->id,
-            'email' => $this->email
-        ];
     }
 }

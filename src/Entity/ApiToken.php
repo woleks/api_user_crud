@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -37,7 +39,7 @@ class ApiToken
     {
         $this->token = bin2hex(random_bytes(60));
         $this->user = $user;
-        $this->expiresAt = new \DateTime('+1 year');
+        $this->expiresAt = new DateTime('+1 year');
     }
 
     public function getId(): ?int
@@ -57,10 +59,10 @@ class ApiToken
 
     public function isExpired(): bool
     {
-        return $this->getExpiresAt() <= new \DateTime();
+        return $this->getExpiresAt() <= new DateTime();
     }
 
-    public function getExpiresAt(): ?\DateTimeInterface
+    public function getExpiresAt(): ?DateTimeInterface
     {
         return $this->expiresAt;
     }
